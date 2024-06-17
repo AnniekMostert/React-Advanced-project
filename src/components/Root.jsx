@@ -6,7 +6,7 @@ import { Box } from '@chakra-ui/react';
 export const Root = () => {
   return (
     <Box>
-      <Navigation />
+      <Navigation/>
       <Outlet />
     </Box>
   );

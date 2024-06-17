@@ -1,9 +1,9 @@
 import {
   AspectRatio,
-  Box,
   Container,
   Flex,
   Image,
+  Grid,
   Text,
 } from "@chakra-ui/react";
 
@@ -20,12 +20,19 @@ const formatDate = (startTime, endTime) => {
     hour: "2-digit",
     minute: "2-digit",
   });
+  const dateAndTime = {date: formattedDate, time: formattedStartTime + " - " + formattedEndTime};
 
-  return `${formattedDate} ${formattedStartTime} - ${formattedEndTime}`;
+  return dateAndTime;
 };
 
-export const EventCard = ({ event }) => {
-  const formattedDateRange = formatDate(event.startTime, event.endTime);
+export const EventCard = ({ event, categories }) => {
+  const date = formatDate(event.startTime, event.endTime).date.replaceAll("/", "-");
+  const time = formatDate(event.startTime, event.endTime).time;
+
+  const categoryNames = event.categoryIds.map((categoryId) => {
+    const category = categories.find((category) => category.id === categoryId);
+    return category && category.name;
+  });
 
   return (
     <Container background="teal.100" borderRadius="10px" padding={0}>
@@ -47,11 +54,18 @@ export const EventCard = ({ event }) => {
           {event.title}
         </Text>
         <Text>{event.description}</Text>
-        <Box border="2px" borderColor="teal.200" paddingX="10px" paddingY="5px">
-          <Text>Time and date:</Text>
-          <Text>{formattedDateRange}</Text>
-        </Box>
- 
+        <Grid templateColumns="1fr 2fr" gap={1} border="2px" borderColor="teal.200" paddingX="10px" paddingY="5px">
+          <Text>Date: </Text>
+          <Text>{date}</Text>
+          <Text>Time: </Text>
+          <Text>{time}</Text>
+        </Grid>
+        <Text>
+          Category:{" "}
+          {categoryNames.length === 2
+            ? categoryNames.join(" and ")
+            : categoryNames}
+        </Text>
       </Flex>
     </Container>
   );

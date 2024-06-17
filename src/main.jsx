@@ -2,7 +2,7 @@ import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { EventPage } from "./pages/EventPage";
-import { EventsPage } from "./pages/EventsPage";
+import { EventsPage, loader as eventsLoader } from "./pages/EventsPage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Root } from "./components/Root";
 
@@ -25,7 +25,7 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <EventsPage />,
-        // loader: eventsLoader,
+        loader: eventsLoader,
       },
       {
         path: "/event/:eventId",
@@ -36,7 +36,7 @@ const router = createBrowserRouter([
     ],
   },
 ]);
-// @ts-ignore
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>

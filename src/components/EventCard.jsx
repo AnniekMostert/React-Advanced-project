@@ -34,6 +34,8 @@ export const EventCard = ({ event, categories }) => {
     return category && category.name;
   });
 
+  console.log(JSON.stringify(event, null, 3));
+
   return (
     <Container background="teal.100" borderRadius="10px" padding={0}>
       <AspectRatio ratio={3 / 2}>

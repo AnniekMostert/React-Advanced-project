@@ -5,6 +5,8 @@ import { EventPage } from "./pages/EventPage";
 import { EventsPage, loader as eventsLoader } from "./pages/EventsPage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Root } from "./components/Root";
+import { AddEvent, loader as addEventLoader } from "./pages/AddEvent";
+import { InputTheme } from "./InputTheme";
 
 export const theme = extendTheme({
   styles: {
@@ -15,6 +17,9 @@ export const theme = extendTheme({
       },
     },
   },
+  components: {
+    Input: InputTheme,
+  }
 });
 
 const router = createBrowserRouter([
@@ -30,8 +35,13 @@ const router = createBrowserRouter([
       {
         path: "/event/:eventId",
         element: <EventPage />,
-        // loader: postLoader,
+        // loader: eventLoader,
         // action: addComment,
+      },
+      {
+        path: "/add-event",
+        element: <AddEvent />,
+        loader: addEventLoader,
       },
     ],
   },

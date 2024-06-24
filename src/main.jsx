@@ -1,12 +1,13 @@
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { EventPage } from "./pages/EventPage";
+import { EventPage, loader as eventLoader } from "./pages/EventPage";
 import { EventsPage, loader as eventsLoader } from "./pages/EventsPage";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Root } from "./components/Root";
 import { AddEvent, loader as addEventLoader } from "./pages/AddEvent";
-import { InputTheme } from "./InputTheme";
+import { inputTheme } from "./inputTheme";
+import { buttonTheme } from "./buttonTheme";
 
 export const theme = extendTheme({
   styles: {
@@ -18,8 +19,9 @@ export const theme = extendTheme({
     },
   },
   components: {
-    Input: InputTheme,
-  }
+    Input: inputTheme,
+    Button: buttonTheme,
+  },
 });
 
 const router = createBrowserRouter([
@@ -35,7 +37,7 @@ const router = createBrowserRouter([
       {
         path: "/event/:eventId",
         element: <EventPage />,
-        // loader: eventLoader,
+        loader: eventLoader,
         // action: addComment,
       },
       {

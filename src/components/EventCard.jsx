@@ -18,7 +18,7 @@ export const EventCard = ({ event, categories }) => {
   });
 
   return (
-    <Container height="100%" background="teal.100" borderRadius="10px" padding={0}>
+    <Container height="100%" background="teal.100" borderRadius="10px" padding={0} _hover={{background: "teal.200"}}>
       <AspectRatio ratio={3 / 2}>
         <Image
           src={event.image}
@@ -42,7 +42,7 @@ export const EventCard = ({ event, categories }) => {
           templateColumns="1fr 2fr"
           gap={1}
           border="2px"
-          borderColor="teal.200"
+          borderColor="red.700"
           paddingX="10px"
           paddingY="5px"
         >

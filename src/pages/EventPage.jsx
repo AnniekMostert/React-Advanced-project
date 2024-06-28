@@ -114,7 +114,7 @@ export const EventPage = () => {
             width="200px"
           />
         </Box>
-        <EditButton event={event} categories={categories}/>
+        <EditButton event={event} categories={categories} />
         <DeleteButton event={event} />
         <Link to={`/`}>
           <Button

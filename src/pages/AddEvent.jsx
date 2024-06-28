@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Checkbox,
+  CloseButton,
   Flex,
   FormControl,
   FormLabel,
@@ -13,7 +14,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import { formatNormalToISO } from "../components/formatNormalToISO";
 
 export const loader = async () => {
@@ -122,7 +123,21 @@ export const AddEvent = () => {
         borderRadius="10px"
         marginX="auto"
         padding="5vw"
+        position="relative"
       >
+        <Link to={`/`}>
+        <CloseButton
+          position="absolute"
+          right="0px"
+          top="0px"
+          borderRadius="0px"
+          background="teal.100"
+          borderTopRightRadius="9px"
+          _hover={{ bgColor: "teal.200" }}
+          _active={{ bgColor: "teal.200" }}
+          _focusVisible={{ shadow: "none" }}
+        />
+      </Link>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Flex flexDirection="column" rowGap="10px">
             <FormControl className="createdBy">
@@ -306,6 +321,15 @@ export const AddEvent = () => {
             >
               Add event
             </Button>
+            <Link to={`/`}>
+          <Button
+            width={{ base: "100%", sm: "200px" }}
+            marginTop="5px"
+            variant="outline"
+          >
+            Back
+          </Button>
+        </Link>
           </Flex>
         </form>
       </Box>

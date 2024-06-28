@@ -8,7 +8,6 @@ import { Root } from "./components/Root";
 import { AddEvent, loader as addEventLoader } from "./pages/AddEvent";
 import { inputTheme } from "./theming/inputTheme";
 import { buttonTheme } from "./theming/buttonTheme";
-import { EditEvent, loader as editEventLoader } from "./pages/EditEvent";
 import { checkboxTheme } from "./theming/checkboxTheme";
 
 export const theme = extendTheme({
@@ -41,17 +40,11 @@ const router = createBrowserRouter([
         path: "/event/:eventId",
         element: <EventPage />,
         loader: eventLoader,
-        // action: addComment,
       },
       {
         path: "/add-event",
         element: <AddEvent />,
         loader: addEventLoader,
-      },
-      {
-        path: "/edit-event/:eventId",
-        element: <EditEvent />,
-        loader: editEventLoader,
       },
     ],
   },

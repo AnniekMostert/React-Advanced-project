@@ -45,7 +45,7 @@ export const EventPage = () => {
   return (
     <Container
       width="auto"
-      maxW="992px"
+      maxW="800px"
       background="teal.100"
       borderRadius={{ base: 0, sm: "10px" }}
       my={{ base: 0, sm: "5vw" }}
@@ -81,50 +81,116 @@ export const EventPage = () => {
         textAlign="center"
         maxW="100%"
       >
-        <Text fontSize="1.4em" fontWeight="bold" textAlign="center">
+        <Text fontSize="3xl" as="b" textAlign="center" marginTop={3}>
           {event.title}
         </Text>
-        <Text>{event.description}</Text>
-        <Grid
-          templateColumns="1fr 2fr"
-          gap={1}
-          border="2px"
-          borderColor="teal.200"
-          paddingX="10px"
-          paddingY="5px"
-        >
-          <Text>Date: </Text>
-          <Text>{date}</Text>
-          <Text>Time: </Text>
-          <Text>{time}</Text>
-        </Grid>
-        <Text>{event.location}</Text>
-        <Text>
-          Category:{" "}
-          {categoryNames.length === 2
-            ? categoryNames.join(" and ")
-            : categoryNames}
+        <Text fontSize="2xl" marginBottom={6}>
+          {event.description}
         </Text>
-        <Box border="2px" borderColor="teal.200" paddingX="10px" paddingY="5px">
-          <Text>Created by</Text>
-          <Text>{createdBy.name}</Text>
-          <Image
-            src={createdBy.image}
-            alt={"Picture of " + createdBy.name}
-            width="200px"
-          />
-        </Box>
-        <EditButton event={event} categories={categories} />
-        <DeleteButton event={event} />
-        <Link to={`/`}>
-          <Button
-            width={{ base: "100%", sm: "200px" }}
-            marginTop="5px"
-            variant="outline"
+        <Flex
+          direction={{ base: "column", sm: "row" }}
+          wrap="wrap"
+          width="100%"
+          justifyContent="space-around"
+        >
+          <Box
+            margin={3}
+            padding={3}
+            border="2px solid"
+            borderColor="teal.200"
+            position="relative"
+            textAlign="start"
           >
-            Back
-          </Button>
-        </Link>
+            <Text
+              position="absolute"
+              top="-12px"
+              left="10px"
+              bgColor="teal.200"
+              paddingX="5px"
+            >
+              Information:
+            </Text>
+
+            <Grid
+              templateColumns="1fr 2fr"
+              columnGap={3}
+              justifyItems="start"
+              rowGap={1}
+              marginTop={2}
+            >
+              <Text as="b">Date: </Text>
+              <Text>{date}</Text>
+              <Text as="b">Time: </Text>
+              <Text>{time}</Text>
+              <Text as="b">Location:</Text>
+              <Text>{event.location}</Text>
+              <Text as="b">Category: </Text>
+              <Text>
+                {categoryNames.length === 2
+                  ? categoryNames.join(" and ")
+                  : categoryNames}
+              </Text>
+            </Grid>
+          </Box>
+
+          <Box
+            margin={3}
+            padding={3}
+            paddingTop={5}
+            border="2px solid"
+            borderColor="teal.200"
+            position="relative"
+            display="flex"
+            flexDirection="column"
+            gap="10px"
+            alignItems="stretch"
+          >
+            <Text
+              position="absolute"
+              top="-12px"
+              left="10px"
+              bgColor="teal.200"
+              paddingX="5px"
+            >
+              Actions:
+            </Text>
+            <EditButton event={event} categories={categories} />
+            <DeleteButton event={event} />
+            <Link to={`/`}>
+              <Button minW="100%">Back to home</Button>
+            </Link>
+          </Box>
+
+          <Box
+            margin={3}
+            padding={3}
+            border="2px solid"
+            borderColor="teal.200"
+            display="flex"
+            flexDirection="column"
+            position="relative"
+          >
+            <Text
+              position="absolute"
+              top="-12px"
+              left="10px"
+              bgColor="teal.200"
+              paddingX="5px"
+            >
+              Created by:
+            </Text>
+            <Text as="b" fontSize="2xl" mb={3} mt={1}>
+              {createdBy.name}
+            </Text>
+            <Image
+              src={createdBy.image}
+              alt={"Picture of " + createdBy.name}
+              width={200}
+              alignSelf="center"
+            />
+          </Box>
+
+        </Flex>
       </Flex>
     </Container>
   );

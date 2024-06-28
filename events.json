@@ -71,7 +71,7 @@
       "description": "Boogschietworkshop voor kinderen en volwassenen",
       "image": "../boogschieten.jpg",
       "categoryIds": [
-        1
+        2
       ],
       "location": "Panbos",
       "startTime": "2024-07-06T12:00:00.000Z",

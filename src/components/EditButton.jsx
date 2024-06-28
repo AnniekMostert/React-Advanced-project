@@ -68,18 +68,21 @@ export const EditButton = ({ event, categories }) => {
     };
 
     const editEvent = async () => {
-      return await fetch(`http://localhost:3000/events/${event.id}`, {
+      const response = await fetch(`http://localhost:3000/events/${event.id}`, {
         method: "PUT",
         body: JSON.stringify(editedEvent),
         headers: { "Content-Type": "application/json" },
       });
+      if (!response.ok) {
+        throw new Error('Failed to edit event');
+      }
+      return response.json();
     };
     try {
-      toast.promise(editEvent(), {
+      await toast.promise(editEvent(), {
         success: {
           title: "The event is changed",
           description: "Looks great",
-          duration: "3000",
         },
         error: {
           title: "The event couldn't be edited",

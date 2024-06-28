@@ -7,12 +7,13 @@ import {
   Container,
   Flex,
   Grid,
-  Heading,
   Image,
   Text,
 } from "@chakra-ui/react";
 import { Link, useLoaderData } from "react-router-dom";
-import { formatDate } from "../components/formatDate";
+import { formatISOToNormal } from "../components/formatISOToNormal";
+import { DeleteButton } from "../components/DeleteButton";
+import { EditButton } from "../components/EditButton";
 
 export const loader = async ({ params }) => {
   const event = await fetch(`http://localhost:3000/events/${params.eventId}`);
@@ -28,11 +29,11 @@ export const loader = async ({ params }) => {
 export const EventPage = () => {
   const { event, categories, users } = useLoaderData();
 
-  const date = formatDate(event.startTime, event.endTime).date.replaceAll(
-    "/",
-    "-"
-  );
-  const time = formatDate(event.startTime, event.endTime).time;
+  const date = formatISOToNormal(event.startTime).dateDMY;
+  const time =
+    formatISOToNormal(event.startTime).time +
+    " - " +
+    formatISOToNormal(event.endTime).time;
 
   const categoryNames = event.categoryIds.map((categoryId) => {
     const category = categories.find((category) => category.id === categoryId);
@@ -47,7 +48,7 @@ export const EventPage = () => {
       maxW="992px"
       background="teal.100"
       borderRadius={{ base: 0, sm: "10px" }}
-      m={{ base: 0, sm: "5vw" }}
+      my={{ base: 0, sm: "5vw" }}
       padding={0}
       position="relative"
     >
@@ -113,8 +114,8 @@ export const EventPage = () => {
             width="200px"
           />
         </Box>
-        <Button variant="outline">Edit event</Button>
-        <Button variant="outline">Delete event</Button>
+        <EditButton event={event} categories={categories}/>
+        <DeleteButton event={event} />
         <Link to={`/`}>
           <Button
             width={{ base: "100%", sm: "200px" }}

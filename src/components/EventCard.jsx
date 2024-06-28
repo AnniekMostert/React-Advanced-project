@@ -6,14 +6,11 @@ import {
   Grid,
   Text,
 } from "@chakra-ui/react";
-import { formatDate } from "./formatDate";
+import { formatISOToNormal } from "./formatISOToNormal";
 
 export const EventCard = ({ event, categories }) => {
-  const date = formatDate(event.startTime, event.endTime).date.replaceAll(
-    "/",
-    "-"
-  );
-  const time = formatDate(event.startTime, event.endTime).time;
+  const date = formatISOToNormal(event.startTime).dateDMY;
+  const time = formatISOToNormal(event.startTime).time + " - " + formatISOToNormal(event.endTime).time;
 
   const categoryNames = event.categoryIds.map((categoryId) => {
     const category = categories.find((category) => category.id === categoryId);

@@ -64,6 +64,19 @@
       "location": "Shavasana Yoga School",
       "startTime": "2023-03-09T06:00:00.000Z",
       "endTime": "2023-03-09T07:00:00.000Z"
+    },
+    {
+      "createdBy": 2,
+      "title": "Boogschieten",
+      "description": "Boogschietworkshop voor kinderen en volwassenen",
+      "image": "../boogschieten.jpg",
+      "categoryIds": [
+        1
+      ],
+      "location": "Panbos",
+      "startTime": "2024-07-06T12:00:00.000Z",
+      "endTime": "2024-07-06T13:30:00.000Z",
+      "id": 5
     }
   ],
   "categories": [

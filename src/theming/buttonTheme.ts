@@ -9,6 +9,14 @@ const outline = defineStyle({
   _focusVisible: { shadow: "none" },
 });
 
+const modal = defineStyle({
+  border: "1px solid",
+  borderColor: "red.700",
+  _hover: { bgColor: "teal.100" },
+  _active: { bgColor: "teal.100" },
+  _focusVisible: { shadow: "none" },
+})
+
 export const buttonTheme = defineStyleConfig({
-  variants: { outline },
+  variants: { outline, modal }, defaultProps: { variant: "outline"}
 });

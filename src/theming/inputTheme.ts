@@ -21,15 +21,26 @@ const variantOutline = definePartsStyle({
       borderColor: "red.700",
       bgColor: "teal.200",
       boxShadow: "none",
-      _placeholder: {
-        color: "red.700",
-      },
     },
   },
 });
 
+const variantModal = definePartsStyle({
+  field: {
+    border: "1px solid",
+    borderColor: "red.700",
+    _hover: { borderColor: "red.700", bgColor: "teal.100" },
+    _focusVisible: {
+      borderColor: "red.700",
+      bgColor: "teal.100",
+      boxShadow: "none",
+    },
+  }
+})
+
 const variants = {
   outline: variantOutline,
+  modal: variantModal
 };
 
 export const inputTheme = defineMultiStyleConfig({

@@ -7,41 +7,25 @@ import {
   FormLabel,
   Heading,
   Input,
-  Select,
   Stack,
   Text,
-  useToast,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useLoaderData, useNavigate } from "react-router-dom";
-import { formatNormalToISO } from "../components/formatNormalToISO";
+import { formatISOToNormal } from "../components/formatISOToNormal";
 
-export const loader = async () => {
-  const users = await fetch(`http://localhost:3000/users`);
+export const loader = async ({ params }) => {
+  const event = await fetch(`http://localhost:3000/events/${params.eventId}`);
   const categories = await fetch(`http://localhost:3000/categories`);
   return {
-    users: await users.json(),
+    event: await event.json(),
     categories: await categories.json(),
   };
 };
 
-export const AddEvent = () => {
-  const { users, categories } = useLoaderData();
+export const EditEvent = () => {
+  const { event, categories } = useLoaderData();
   const navigate = useNavigate();
-  const toast = useToast();
-
-  const defaultValues = {
-    createdBy: "2",
-    title: "Boogschieten",
-    description: "Boogschietworkshop voor kinderen en volwassenen",
-    image: "../boogschieten.jpg",
-    categoryIds: ["1"],
-    location: "Panbos",
-    startingDate: "2024-07-06",
-    startingTime: "14:00",
-    endingDate: "2024-07-06",
-    endingTime: "15:30",
-  };
 
   const {
     handleSubmit,
@@ -49,7 +33,7 @@ export const AddEvent = () => {
     register,
     getValues,
     reset,
-  } = useForm({ defaultValues });
+  } = useForm({ defaultValues: event });
 
   const validateEndtime = () => {
     const ST = getValues("startingTime");
@@ -67,22 +51,19 @@ export const AddEvent = () => {
     return true;
   };
 
-  const createEvent = async (newEvent) => {
+  const editEvent = async (editedEvent) => {
     try {
-      const response = await fetch("http://localhost:3000/events", {
-        method: "POST",
-        body: JSON.stringify(newEvent),
+      const response = await fetch(`http://localhost:3000/events/${event.id}`, {
+        method: "PUT",
+        body: JSON.stringify(editedEvent),
         headers: { "Content-Type": "application/json" },
       });
       if (!response.ok) {
-        throw new Error(
-          `Failed to create an event. Status: ${response.status}`
-        );
+        throw new Error(`Failed to edit the event. Status: ${response.status}`);
       }
-      const id = (await response.json()).id;
-      navigate(`/event/${id}`);
+      navigate(`/event/${event.id}`);
     } catch (error) {
-      console.error("An error occurred while creating a event:", error);
+      console.error("An error occurred while editing the event:", error);
     }
   };
 
@@ -96,8 +77,8 @@ export const AddEvent = () => {
       getValues("endingTime")
     );
 
-    const newEvent = {
-      createdBy: Number(data.createdBy),
+    const editedEvent = {
+      createdBy: event.createdBy,
       title: data.title,
       description: data.description,
       image: data.image,
@@ -107,14 +88,14 @@ export const AddEvent = () => {
       endTime,
     };
 
-    createEvent(newEvent);
+    editEvent(editedEvent);
     reset();
   };
 
   return (
     <>
       <Heading textAlign="center" margin="5vw">
-        Add event:
+        Edit event:
       </Heading>
       <Box
         bgColor="teal.100"
@@ -125,36 +106,8 @@ export const AddEvent = () => {
       >
         <form onSubmit={handleSubmit(onSubmit)}>
           <Flex flexDirection="column" rowGap="10px">
-            <FormControl className="createdBy">
-              <FormLabel>
-                My name <span style={{ color: "red" }}>*</span>
-              </FormLabel>
-              <Select
-                name="createdBy"
-                placeholder="Select user"
-                borderColor="red.700"
-                _hover={{ borderColor: "red.700", bgColor: "teal.200" }}
-                _focusVisible={{
-                  borderColor: "red.700",
-                  bgColor: "teal.200",
-                }}
-                {...register("createdBy", {
-                  required: "Select your name",
-                })}
-              >
-                {users.map((user) => (
-                  <option key={user.id} value={user.id}>
-                    {user.name}
-                  </option>
-                ))}
-              </Select>
-              <Text color="red.500">{errors.createdBy?.message}</Text>
-            </FormControl>
-
             <FormControl className="title">
-              <FormLabel>
-                Title <span style={{ color: "red" }}>*</span>
-              </FormLabel>
+              <FormLabel>Title</FormLabel>
 
               <Input
                 type="text"
@@ -167,9 +120,7 @@ export const AddEvent = () => {
             </FormControl>
 
             <FormControl className="description">
-              <FormLabel>
-                Short description <span style={{ color: "red" }}>*</span>
-              </FormLabel>
+              <FormLabel>Short description</FormLabel>
               <Input
                 type="text"
                 name="description"
@@ -185,9 +136,7 @@ export const AddEvent = () => {
             </FormControl>
 
             <FormControl className="image">
-              <FormLabel>
-                Image url <span style={{ color: "red" }}>*</span>
-              </FormLabel>
+              <FormLabel>Image url</FormLabel>
               <Input
                 type="text"
                 name="image"
@@ -199,15 +148,14 @@ export const AddEvent = () => {
             </FormControl>
 
             <FormControl className="category">
-              <FormLabel>
-                Category <span style={{ color: "red" }}>*</span>
-              </FormLabel>
+              <FormLabel>Category</FormLabel>
               <Stack dir="column">
                 {categories.map((category) => (
                   <Checkbox
                     key={category.id}
                     name={category.id}
                     value={category.id}
+                    defaultChecked={event.categoryIds.includes(category.id)}
                     {...register("categoryIds", {
                       validate: (value) =>
                         value.length > 0 ||
@@ -224,9 +172,7 @@ export const AddEvent = () => {
             </FormControl>
 
             <FormControl className="location">
-              <FormLabel>
-                Location <span style={{ color: "red" }}>*</span>
-              </FormLabel>
+              <FormLabel>Location</FormLabel>
 
               <Input
                 type="text"
@@ -235,17 +181,16 @@ export const AddEvent = () => {
                   required: "Fill in a location for your event",
                 })}
               />
-              <Text color="red.500">{errors.title?.message}</Text>
+              <Text color="red.500">{errors.location?.message}</Text>
             </FormControl>
 
             <FormControl className="startTime">
-              <FormLabel>
-                Start time <span style={{ color: "red" }}>*</span>
-              </FormLabel>
+              <FormLabel>Start time</FormLabel>
               <Flex gap="5px">
                 <Input
                   type="date"
                   width="150px"
+                  defaultValue={formatISOToNormal(event.startTime).dateYMD}
                   {...register("startingDate", {
                     required: "Select the date your event starts",
                   })}
@@ -253,6 +198,7 @@ export const AddEvent = () => {
                 <Input
                   type="time"
                   width="150px"
+                  defaultValue={formatISOToNormal(event.startTime).time}
                   {...register("startingTime", {
                     required: "Select the time your event starts",
                   })}
@@ -263,13 +209,12 @@ export const AddEvent = () => {
             </FormControl>
 
             <FormControl className="endTime">
-              <FormLabel>
-                End time <span style={{ color: "red" }}>*</span>
-              </FormLabel>
+              <FormLabel>End time</FormLabel>
               <Flex gap="5px">
                 <Input
                   type="date"
                   width="150px"
+                  defaultValue={formatISOToNormal(event.endTime).dateYMD}
                   {...register("endingDate", {
                     required: "Select the date your event ends",
                     validate: (value) =>
@@ -280,6 +225,7 @@ export const AddEvent = () => {
                 <Input
                   type="time"
                   width="150px"
+                  defaultValue={formatISOToNormal(event.endTime).time}
                   {...register("endingTime", {
                     required: "Select the time your event ends",
                     validate: validateEndtime,
@@ -296,15 +242,8 @@ export const AddEvent = () => {
               border="1px"
               _hover={{ bgColor: "teal.200" }}
               marginTop="10px"
-              onClick={() =>
-                toast({
-                  title: "Event created",
-                  description: `${getValues("title")} is succesfully created.`,
-                  status: "success",
-                })
-              }
             >
-              Add event
+              Edit event
             </Button>
           </Flex>
         </form>

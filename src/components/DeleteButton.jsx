@@ -48,8 +48,9 @@ export const DeleteButton = ({ event }) => {
           <ModalHeader fontWeight="bold">Caution!</ModalHeader>
           <ModalCloseButton
             border="1px solid"
-            _hover={{ background: "teal.100" }}
-            _focusVisible={{ background: "teal.100" }}
+            bgColor="teal.100"
+            _hover={{ background: "teal.200" }}
+            _focusVisible={{ background: "teal.200" }}
           />
           <ModalBody>
             Are you sure you want to delete the event: {event.title}?

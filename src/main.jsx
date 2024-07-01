@@ -9,6 +9,7 @@ import { AddEvent, loader as addEventLoader } from "./pages/AddEvent";
 import { inputTheme } from "./theming/inputTheme";
 import { buttonTheme } from "./theming/buttonTheme";
 import { checkboxTheme } from "./theming/checkboxTheme";
+// import { dividerTheme } from "./theming/dividerTheme";
 
 export const theme = extendTheme({
   styles: {
@@ -23,6 +24,7 @@ export const theme = extendTheme({
     Input: inputTheme,
     Button: buttonTheme,
     Checkbox: checkboxTheme,
+    // Divider: dividerTheme,
   },
 });
 

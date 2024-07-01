@@ -7,8 +7,8 @@ export const Header = () => {
     <Flex bgColor="teal.200" flexDirection="column" alignItems="center" paddingY="10px" gap="10px" textAlign="center" >
       <Heading>Find your next unforgettable event</Heading>
       <Flex flexDirection="row" gap="10px" >
-            <Link to="/"><Button variant="header">All events</Button></Link>
-            <Link to="/add-event"><Button variant="header">Add event</Button></Link>
+            <Link to="/"><Button>All events</Button></Link>
+            <Link to="/add-event"><Button>Add event</Button></Link>
       </Flex>
       
     </Flex>

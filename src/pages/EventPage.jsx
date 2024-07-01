@@ -66,10 +66,10 @@ export const EventPage = () => {
           right="0px"
           top="0px"
           borderRadius="0px"
-          background="teal.100"
+          background="teal.200"
           borderTopRightRadius="8px"
-          _hover={{ bgColor: "teal.200" }}
-          _active={{ bgColor: "teal.200" }}
+          _hover={{ bgColor: "teal.300" }}
+          _active={{ bgColor: "teal.300" }}
           _focusVisible={{ shadow: "none" }}
         />
       </Link>

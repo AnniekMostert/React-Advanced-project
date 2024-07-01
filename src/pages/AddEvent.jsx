@@ -3,6 +3,7 @@ import {
   Button,
   Checkbox,
   CloseButton,
+  Divider,
   Flex,
   FormControl,
   FormLabel,
@@ -126,20 +127,20 @@ export const AddEvent = () => {
         position="relative"
       >
         <Link to={`/`}>
-        <CloseButton
-          position="absolute"
-          right="0px"
-          top="0px"
-          borderRadius="0px"
-          background="teal.100"
-          borderTopRightRadius="9px"
-          _hover={{ bgColor: "teal.200" }}
-          _active={{ bgColor: "teal.200" }}
-          _focusVisible={{ shadow: "none" }}
-        />
-      </Link>
+          <CloseButton
+            position="absolute"
+            right="0px"
+            top="0px"
+            borderRadius="0px"
+            background="teal.200"
+            borderTopRightRadius="9px"
+            _hover={{ bgColor: "teal.300" }}
+            _active={{ bgColor: "teal.300" }}
+            _focusVisible={{ shadow: "none" }}
+          />
+        </Link>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Flex flexDirection="column" rowGap="10px">
+          <Flex flexDirection="column" rowGap="15px">
             <FormControl className="createdBy">
               <FormLabel>
                 My name <span style={{ color: "red" }}>*</span>
@@ -257,17 +258,15 @@ export const AddEvent = () => {
               <FormLabel>
                 Start time <span style={{ color: "red" }}>*</span>
               </FormLabel>
-              <Flex gap="5px">
+              <Flex direction={{ base: "column", sm: "row" }} gap="10px">
                 <Input
                   type="date"
-                  width="150px"
                   {...register("startingDate", {
                     required: "Select the date your event starts",
                   })}
                 />
                 <Input
                   type="time"
-                  width="150px"
                   {...register("startingTime", {
                     required: "Select the time your event starts",
                   })}
@@ -281,10 +280,9 @@ export const AddEvent = () => {
               <FormLabel>
                 End time <span style={{ color: "red" }}>*</span>
               </FormLabel>
-              <Flex gap="5px">
+              <Flex direction={{ base: "column", sm: "row" }} gap="10px">
                 <Input
                   type="date"
-                  width="150px"
                   {...register("endingDate", {
                     required: "Select the date your event ends",
                     validate: (value) =>
@@ -294,7 +292,6 @@ export const AddEvent = () => {
                 />
                 <Input
                   type="time"
-                  width="150px"
                   {...register("endingTime", {
                     required: "Select the time your event ends",
                     validate: validateEndtime,
@@ -305,31 +302,28 @@ export const AddEvent = () => {
               <Text color="red.500">{errors.endingTime?.message}</Text>
             </FormControl>
 
-            <Button
-              type="submit"
-              bgColor="teal.100"
-              border="1px"
-              _hover={{ bgColor: "teal.200" }}
-              marginTop="10px"
-              onClick={() =>
-                toast({
-                  title: "Event created",
-                  description: `${getValues("title")} is succesfully created.`,
-                  status: "success",
-                })
-              }
-            >
-              Add event
-            </Button>
-            <Link to={`/`}>
-          <Button
-            width={{ base: "100%", sm: "200px" }}
-            marginTop="5px"
-            variant="outline"
-          >
-            Back
-          </Button>
-        </Link>
+            <Divider borderColor="red.700" opacity="1" borderWidth={1} />
+
+            <Flex direction={{ base: "column", sm: "row" }} gap="10px">
+              <Button
+                type="submit"
+                flex={{sm: "1"}}
+                onClick={() =>
+                  toast({
+                    title: "Event created",
+                    description: `${getValues(
+                      "title"
+                    )} is succesfully created.`,
+                    status: "success",
+                  })
+                }
+              >
+                Add event
+              </Button>
+              <Link to={`/`} style={{ flex: "1" }} >
+                <Button width="100%">Back</Button>
+              </Link>
+            </Flex>
           </Flex>
         </form>
       </Box>

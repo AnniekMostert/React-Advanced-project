@@ -43,22 +43,23 @@ export const EventsPage = () => {
             display={{ base: "none", md: "inline-block" }}
             width="100px"
             height="100px"
+            variant="modal"
             whiteSpace="normal"
             fontWeight="bold"
             position="absolute"
             top="50%"
             transform="translateY(-50%)"
             right="calc((100vw - 2rem - 650px) / 4)"
+            //transition
+            boxShadow="rgba(17, 12, 46, 0.5) 0px 48px 100px 0px"
+            transition="boxShadow 0.6s ease"
+            _hover={{
+              boxShadow: "rgba(17, 12, 46, 5) 0px 48px 100px 0px",
+            }}
           >
             Add new event
           </Button>
-          <Flex
-            direction="column"
-            maxW="450px"
-            my="1rem"
-            mx="auto"
-            
-          >
+          <Flex direction="column" maxW="450px" my="1rem" mx="auto">
             <Heading>List of events</Heading>
             <Input
               onChange={(event) => setsearchValue(event.target.value)}

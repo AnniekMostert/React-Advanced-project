@@ -115,8 +115,9 @@ export const EditButton = ({ event, categories }) => {
         <ModalContent>
           <ModalCloseButton
             border="1px solid"
-            _hover={{ background: "teal.100" }}
-            _focusVisible={{ background: "teal.100" }}
+            bgColor="teal.100"
+            _hover={{ background: "teal.200" }}
+            _focusVisible={{ background: "teal.200" }}
           />
           <ModalBody paddingY={6}>
             <form onSubmit={handleSubmit(onSubmit)}>

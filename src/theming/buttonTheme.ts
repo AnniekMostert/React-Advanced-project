@@ -8,24 +8,19 @@ const baseStyle = defineStyle({
 
 const outline = defineStyle({
   ...baseStyle,
+  bgColor: "teal.200",
+  _hover: { bgColor: "teal.300" },
+  _active: { bgColor: "teal.300" },
+});
+
+const modal = defineStyle({
   bgColor: "teal.100",
   _hover: { bgColor: "teal.200" },
   _active: { bgColor: "teal.200" },
 });
 
-const modal = defineStyle({
-  _hover: { bgColor: "teal.100" },
-  _active: { bgColor: "teal.100" },
-});
-
-const header = defineStyle({
-  bgColor: "teal.200",
-  _hover: { bgColor: "teal.100" },
-  _active: { bgColor: "teal.100" },
-});
-
 export const buttonTheme = defineStyleConfig({
   baseStyle,
-  variants: { outline, modal, header },
+  variants: { outline, modal },
   defaultProps: { variant: "outline" },
 });

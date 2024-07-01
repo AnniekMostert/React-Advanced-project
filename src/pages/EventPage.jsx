@@ -44,11 +44,12 @@ export const EventPage = () => {
 
   return (
     <Container
-      width="auto"
+      width={{ base: "90vw", sm: "90vw" }}
+      marginX="auto"
       maxW="800px"
       background="teal.100"
-      borderRadius={{ base: 0, sm: "10px" }}
-      my={{ base: 0, sm: "5vw" }}
+      borderRadius="10px"
+      my="5vw"
       padding={0}
       position="relative"
     >
@@ -123,7 +124,7 @@ export const EventPage = () => {
               <Text as="b">Time: </Text>
               <Text>{time}</Text>
               <Text as="b">Location:</Text>
-              <Text>{event.location}</Text>
+              <Text maxW="150px">{event.location}</Text>
               <Text as="b">Category: </Text>
               <Text>
                 {categoryNames.length === 2
@@ -189,7 +190,6 @@ export const EventPage = () => {
               alignSelf="center"
             />
           </Box>
-
         </Flex>
       </Flex>
     </Container>

@@ -50,64 +50,63 @@ export const EventsPage = () => {
             top="50%"
             transform="translateY(-50%)"
             right="calc((100vw - 2rem - 650px) / 4)"
-            //transition
-            boxShadow="rgba(17, 12, 46, 0.5) 0px 48px 100px 0px"
+            boxShadow="4px 4px 5px rgba(0, 0, 0, 0.3)"
             transition="boxShadow 0.6s ease"
             _hover={{
-              boxShadow: "rgba(17, 12, 46, 5) 0px 48px 100px 0px",
+              boxShadow: "5px 5px 7px rgba(0, 0, 0, 0.6)",
             }}
           >
             Add new event
           </Button>
-          <Flex direction="column" maxW="450px" my="1rem" mx="auto">
-            <Heading>List of events</Heading>
-            <Input
-              onChange={(event) => setsearchValue(event.target.value)}
-              placeholder="Search for events"
-              my="0.5rem"
-            />
-            <RadioGroup defaultValue="0" onChange={setChosenCategory}>
-              <Stack direction={{ base: "column", sm: "row" }} columnGap="10px">
-                <Radio
-                  spacing="5px"
-                  border="1px solid"
-                  borderColor="red.700"
-                  _checked={{ background: "teal.200" }}
-                  value="0"
-                >
-                  all
-                </Radio>
-                <Radio
-                  spacing="5px"
-                  border="1px solid"
-                  borderColor="red.700"
-                  _checked={{ background: "teal.200" }}
-                  value="1"
-                >
-                  sports
-                </Radio>
-                <Radio
-                  spacing="5px"
-                  border="1px solid"
-                  borderColor="red.700"
-                  _checked={{ background: "teal.200" }}
-                  value="2"
-                >
-                  games
-                </Radio>
-                <Radio
-                  spacing="5px"
-                  border="1px solid"
-                  borderColor="red.700"
-                  _checked={{ background: "teal.200" }}
-                  value="3"
-                >
-                  relaxation
-                </Radio>
-              </Stack>
-            </RadioGroup>
-          </Flex>
         </Link>
+        <Flex direction="column" maxW="450px" my={5} mx="auto">
+          <Heading>List of events</Heading>
+          <Input
+            onChange={(event) => setsearchValue(event.target.value)}
+            placeholder="Search for events"
+            my="0.5rem"
+          />
+          <RadioGroup defaultValue="0" onChange={setChosenCategory}>
+            <Stack direction={{ base: "column", sm: "row" }} columnGap="10px">
+              <Radio
+                spacing="5px"
+                border="1px solid"
+                borderColor="red.700"
+                _checked={{ background: "teal.200" }}
+                value="0"
+              >
+                all
+              </Radio>
+              <Radio
+                spacing="5px"
+                border="1px solid"
+                borderColor="red.700"
+                _checked={{ background: "teal.200" }}
+                value="1"
+              >
+                sports
+              </Radio>
+              <Radio
+                spacing="5px"
+                border="1px solid"
+                borderColor="red.700"
+                _checked={{ background: "teal.200" }}
+                value="2"
+              >
+                games
+              </Radio>
+              <Radio
+                spacing="5px"
+                border="1px solid"
+                borderColor="red.700"
+                _checked={{ background: "teal.200" }}
+                value="3"
+              >
+                relaxation
+              </Radio>
+            </Stack>
+          </RadioGroup>
+        </Flex>
       </Box>
 
       <SimpleGrid

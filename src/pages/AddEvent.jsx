@@ -32,17 +32,30 @@ export const AddEvent = () => {
   const navigate = useNavigate();
   const toast = useToast();
 
+  // defaultValues for testing:
+  // const defaultValues = {
+  //   createdBy: "2",
+  //   title: "Boogschieten",
+  //   description: "Boogschietworkshop voor kinderen en volwassenen",
+  //   image: "../boogschieten.jpg",
+  //   categoryIds: ["1"],
+  //   location: "Panbos",
+  //   startingDate: "2024-07-06",
+  //   startingTime: "14:00",
+  //   endingDate: "2024-07-06",
+  //   endingTime: "15:30",
+  // };
   const defaultValues = {
-    createdBy: "2",
-    title: "Boogschieten",
-    description: "Boogschietworkshop voor kinderen en volwassenen",
-    image: "../boogschieten.jpg",
-    categoryIds: ["1"],
-    location: "Panbos",
-    startingDate: "2024-07-06",
-    startingTime: "14:00",
-    endingDate: "2024-07-06",
-    endingTime: "15:30",
+    createdBy: "",
+    title: "",
+    description: "",
+    image: "",
+    categoryIds: [],
+    location: "",
+    startingDate: "",
+    startingTime: "",
+    endingDate: "",
+    endingTime: "",
   };
 
   const {
@@ -69,26 +82,7 @@ export const AddEvent = () => {
     return true;
   };
 
-  const createEvent = async (newEvent) => {
-    try {
-      const response = await fetch("http://localhost:3000/events", {
-        method: "POST",
-        body: JSON.stringify(newEvent),
-        headers: { "Content-Type": "application/json" },
-      });
-      if (!response.ok) {
-        throw new Error(
-          `Failed to create an event. Status: ${response.status}`
-        );
-      }
-      const id = (await response.json()).id;
-      navigate(`/event/${id}`);
-    } catch (error) {
-      console.error("An error occurred while creating a event:", error);
-    }
-  };
-
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const startTime = formatNormalToISO(
       getValues("startingDate"),
       getValues("startingTime")
@@ -109,20 +103,55 @@ export const AddEvent = () => {
       endTime,
     };
 
-    createEvent(newEvent);
-    reset();
+    const createEvent = async () => {
+      const response = await fetch("http://localhost:3000/events", {
+        method: "POST",
+        body: JSON.stringify(newEvent),
+        headers: { "Content-Type": "application/json" },
+      });
+      if (!response.ok) {
+        throw new Error(
+          `Failed to create an event. Status: ${response.status}`
+        );
+      }
+      return response.json();
+    };
+
+    try {
+      await toast.promise(createEvent(), {
+        success: {
+          title: "The event is added",
+          description: "Looks great",
+        },
+        error: {
+          title: "The event couldn't be added",
+          description: "Something wrong",
+        },
+        loading: {
+          title: "The event is being added",
+          description: "Please wait",
+        },
+      });
+      const id = (await createEvent()).id;
+      navigate(`/event/${id}`);
+      reset();
+    } catch (error) {
+      console.error("An error occurred while creating a event:", error);
+    }
   };
 
   return (
     <>
-      <Heading textAlign="center" margin="5vw">
+      <Heading textAlign="center" marginY={5}>
         Add event:
       </Heading>
       <Box
         bgColor="teal.100"
         width={{ base: "90vw", sm: "90vw" }}
+        maxW="500px"
         borderRadius="10px"
         marginX="auto"
+        marginY={5}
         padding="5vw"
         position="relative"
       >
@@ -218,7 +247,7 @@ export const AddEvent = () => {
               <FormLabel>
                 Category <span style={{ color: "red" }}>*</span>
               </FormLabel>
-              <Stack dir="column">
+              <Stack direction={{ base: "column", sm: "row" }} columnGap={5}>
                 {categories.map((category) => (
                   <Checkbox
                     key={category.id}
@@ -305,24 +334,12 @@ export const AddEvent = () => {
             <Divider borderColor="red.700" opacity="1" borderWidth={1} />
 
             <Flex direction={{ base: "column", sm: "row" }} gap="10px">
-              <Button
-                type="submit"
-                flex={{sm: "1"}}
-                onClick={() =>
-                  toast({
-                    title: "Event created",
-                    description: `${getValues(
-                      "title"
-                    )} is succesfully created.`,
-                    status: "success",
-                  })
-                }
-              >
+              <Button type="submit" flex={{ sm: 1 }}>
                 Add event
               </Button>
-              <Link to={`/`} style={{ flex: "1" }} >
-                <Button width="100%">Back</Button>
-              </Link>
+              <Button flex={{ sm: 1 }} onClick={() => navigate("/")}>
+                Back
+              </Button>
             </Flex>
           </Flex>
         </form>

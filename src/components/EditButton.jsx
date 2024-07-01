@@ -1,6 +1,7 @@
 import {
   Button,
   Checkbox,
+  Divider,
   Flex,
   FormControl,
   FormLabel,
@@ -74,10 +75,11 @@ export const EditButton = ({ event, categories }) => {
         headers: { "Content-Type": "application/json" },
       });
       if (!response.ok) {
-        throw new Error('Failed to edit event');
+        throw new Error(`Failed to edit event. Status: ${response.status}`);
       }
       return response.json();
     };
+    
     try {
       await toast.promise(editEvent(), {
         success: {
@@ -108,8 +110,9 @@ export const EditButton = ({ event, categories }) => {
       <Modal
         isOpen={isOpen}
         onClose={onClose}
-        size={{ base: "full", sm: "xl" }}
+        size={{ base: "full", sm: "lg" }}
         scrollBehavior="inside"
+        maxWidth={{ sm: "500px" }}
       >
         <ModalOverlay />
         <ModalContent>
@@ -118,6 +121,7 @@ export const EditButton = ({ event, categories }) => {
             bgColor="teal.100"
             _hover={{ background: "teal.200" }}
             _focusVisible={{ background: "teal.200" }}
+            zIndex="9"
           />
           <ModalBody paddingY={6}>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -168,7 +172,10 @@ export const EditButton = ({ event, categories }) => {
 
                 <FormControl className="category">
                   <FormLabel>Category</FormLabel>
-                  <Stack dir="column">
+                  <Stack
+                    direction={{ base: "column", sm: "row" }}
+                    columnGap={5}
+                  >
                     {categories.map((category) => (
                       <Checkbox
                         key={category.id}
@@ -207,11 +214,10 @@ export const EditButton = ({ event, categories }) => {
 
                 <FormControl className="startTime">
                   <FormLabel>Start time</FormLabel>
-                  <Flex gap="5px">
+                  <Flex direction={{ base: "column", sm: "row" }} gap="10px">
                     <Input
                       type="date"
                       variant="modal"
-                      width="150px"
                       defaultValue={formatISOToNormal(event.startTime).dateYMD}
                       {...register("startingDate", {
                         required: "Select the date your event starts",
@@ -220,7 +226,6 @@ export const EditButton = ({ event, categories }) => {
                     <Input
                       type="time"
                       variant="modal"
-                      width="150px"
                       defaultValue={formatISOToNormal(event.startTime).time}
                       {...register("startingTime", {
                         required: "Select the time your event starts",
@@ -233,11 +238,10 @@ export const EditButton = ({ event, categories }) => {
 
                 <FormControl className="endTime">
                   <FormLabel>End time</FormLabel>
-                  <Flex gap="5px">
+                  <Flex direction={{ base: "column", sm: "row" }} gap="10px">
                     <Input
                       type="date"
                       variant="modal"
-                      width="150px"
                       defaultValue={formatISOToNormal(event.endTime).dateYMD}
                       {...register("endingDate", {
                         required: "Select the date your event ends",
@@ -249,7 +253,6 @@ export const EditButton = ({ event, categories }) => {
                     <Input
                       type="time"
                       variant="modal"
-                      width="150px"
                       defaultValue={formatISOToNormal(event.endTime).time}
                       {...register("endingTime", {
                         required: "Select the time your event ends",
@@ -260,12 +263,17 @@ export const EditButton = ({ event, categories }) => {
                   <Text color="red.500">{errors.endingDate?.message}</Text>
                   <Text color="red.500">{errors.endingTime?.message}</Text>
                 </FormControl>
-                <Button type="submit" variant="modal">
-                  Edit event
-                </Button>
-                <Button variant="modal" onClick={onClose}>
-                  Back
-                </Button>
+
+                <Divider borderColor="red.700" opacity="1" borderWidth={1} />
+
+                <Flex direction={{ base: "column", sm: "row" }} gap="10px">
+                  <Button type="submit" variant="modal" flex={{ sm: 1 }}>
+                    Edit event
+                  </Button>
+                  <Button variant="modal" onClick={onClose} flex={{ sm: 1 }}>
+                    Back
+                  </Button>
+                </Flex>
               </Flex>
             </form>
           </ModalBody>

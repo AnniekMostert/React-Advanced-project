@@ -17,8 +17,8 @@ export const DeleteButton = ({ event }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
 
-  const deleteEvent = async () => {
-    try {
+  const onDelete = async () => {
+    const deleteEvent = async () => {
       const response = await fetch(`http://localhost:3000/events/${event.id}`, {
         method: "DELETE",
       });
@@ -27,10 +27,22 @@ export const DeleteButton = ({ event }) => {
           `Failed to delete the event. Status: ${response.status}`
         );
       }
-      toast({
-        title: "Event deleted",
-        description: `${event.title} is succesfully deleted.`,
-        status: "success",
+    };
+
+    try {
+      await toast.promise(deleteEvent(), {
+        success: {
+          title: "Event deleted",
+          description: `${event.title} is succesfully deleted.`,
+        },
+        error: {
+          title: "Something wrong",
+          description: `${event.title} couldn't be deleted`,
+        },
+        loading: {
+          title: "Please wait",
+          description: `${event.title} is being deleted`,
+        },
       });
       navigate(`/`);
     } catch (error) {
@@ -55,19 +67,11 @@ export const DeleteButton = ({ event }) => {
           <ModalBody>
             Are you sure you want to delete the event: {event.title}?
           </ModalBody>
-          <ModalFooter flexDirection={["column", "row"]} gap="5px">
-            <Button
-              variant="modal"
-              onClick={deleteEvent}
-              width="180px"
-            >
+          <ModalFooter flexDirection={["column", "row"]} gap="10px">
+            <Button variant="modal" onClick={onDelete} flex={{ sm: 1 }}>
               Yes I want to delete
             </Button>
-            <Button
-              variant="modal"
-              onClick={onClose}
-              width="180px"
-            >
+            <Button variant="modal" onClick={onClose} flex={{ sm: 1 }}>
               No, please go back
             </Button>
           </ModalFooter>
